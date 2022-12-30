@@ -111,10 +111,34 @@ const onSubmit = async () => {
     $q.notify({
       color: "green-4",
       textColor: "white",
-      icon: "cloud_done",
+      icon: "check_circle",
       message: "Inicio sesión con éxito",
     });
   } catch (error) {
+    if (error.code == "auth/wrong-password") {
+      $q.notify({
+        color: "red-4",
+        textColor: "white",
+        icon: "warning",
+        message: "Contraseña incorrecta ",
+      });
+    }
+    if (error.code == "auth/user-not-found") {
+      $q.notify({
+        color: "red-4",
+        textColor: "white",
+        icon: "warning",
+        message: "Email no encontrado ",
+      });
+    }
+    if (error.code == "auth/to-many-request") {
+      $q.notify({
+        color: "red-4",
+        textColor: "white",
+        icon: "warning",
+        message: "Demasiados intentos, intentelo luego",
+      });
+    }
     console.error(error);
   }
 };
