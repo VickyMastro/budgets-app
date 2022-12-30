@@ -19,6 +19,24 @@ const routes = [
     },
   },
 
+  {
+    path: "/",
+    component: () => import("src/layouts/MenuLayout.vue"),
+    meta: { requiresAuth: true },
+    children: [
+      {
+        path: "",
+        name: "Home",
+        component: () => import("src/pages/HomePage.vue"),
+      },
+      {
+        path: "profile",
+        name: "UserProfile",
+        component: () => import("components/User/UserProfile.vue"),
+      },
+    ],
+  },
+
   // Always leave this as last one,
   // but you can also remove it
   {
