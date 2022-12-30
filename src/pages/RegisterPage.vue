@@ -83,14 +83,22 @@ const onSubmit = async () => {
   try {
     await createUserWithEmailAndPassword(auth, email.value, password.value);
     await updateProfile(auth.currentUser, { displayName: name.value });
+
+    $q.notify({
+      color: "green-4",
+      textColor: "white",
+      icon: "cloud_done",
+      message: "Se creo el usuario con éxito",
+    });
   } catch (error) {
+    if (error.code == "auth/email-already-in-use")
+      $q.notify({
+        color: "red-4",
+        textColor: "white",
+        icon: "warning",
+        message: "Ese email ya se encuentra en uso",
+      });
     console.error(error);
   }
-  $q.notify({
-    color: "green-4",
-    textColor: "white",
-    icon: "cloud_done",
-    message: "Se creo el usuario con éxito",
-  });
 };
 </script>
