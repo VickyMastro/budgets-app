@@ -15,7 +15,8 @@
           :key="link.title"
           v-bind="link"
         />
-        <q-item clickable tag="a" @click="doLogout">
+
+        <q-item clickable tag="a" @click="confirm = true">
           <q-item-section avatar>
             <q-icon name="logout" color="negative" />
           </q-item-section>
@@ -24,6 +25,10 @@
             <q-item-label>Cerrar sesión</q-item-label>
           </q-item-section>
         </q-item>
+
+        <q-dialog v-model="confirm">
+          <ConfirmModal />
+        </q-dialog>
       </q-list>
     </q-drawer>
 
@@ -36,9 +41,9 @@
 <script setup>
 import { ref } from "vue";
 import EssentialLink from "src/components/MenuLink.vue";
-import { auth } from "src/boot/firebase";
-import { signOut } from "@firebase/auth";
-import { useRouter } from "vue-router";
+import ConfirmModal from "src/components/ConfirmModal.vue";
+
+const confirm = ref(false);
 
 const essentialLinks = [
   {
@@ -88,16 +93,5 @@ const essentialLinks = [
 const openMenu = ref(false);
 const toggleLeftDrawer = () => {
   openMenu.value = !openMenu.value;
-};
-
-const router = useRouter();
-const doLogout = async () => {
-  try {
-    await signOut(auth);
-
-    router.push({ name: "Login" });
-  } catch (error) {
-    console.error(error);
-  }
 };
 </script>
